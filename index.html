@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fff9f5" />
+    <title>Untukmu, dengan bunga</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap");
+
+      :root {
+        --ink: #3b2730;
+        --muted: #806b73;
+        --rose: #d7677f;
+        --rose-dark: #b74c66;
+        --peach: #f6b18c;
+        --cream: #fffaf5;
+        --paper: rgba(255, 255, 255, 0.82);
+        --line: rgba(118, 80, 91, 0.15);
+        --shadow: 0 28px 80px rgba(131, 69, 82, 0.16);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 8% 8%, rgba(247, 177, 140, .22), transparent 28rem),
+          radial-gradient(circle at 92% 16%, rgba(215, 103, 127, .12), transparent 25rem),
+          var(--cream);
+        font-family: "DM Sans", sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      body::before, body::after {
+        content: "";
+        position: fixed;
+        z-index: -1;
+        width: 20rem;
+        height: 20rem;
+        border: 1px solid rgba(215, 103, 127, .12);
+        border-radius: 50%;
+      }
+      body::before { top: -10rem; left: -8rem; }
+      body::after { right: -10rem; bottom: -11rem; }
+
+      .shell { width: min(1120px, calc(100% - 40px)); margin: auto; }
+      header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 28px 0;
+      }
+      .brand { display: flex; gap: 10px; align-items: center; font-weight: 700; letter-spacing: -.03em; }
+      .brand-mark {
+        display: grid; place-items: center; width: 34px; height: 34px;
+        border-radius: 12px 12px 12px 3px; color: white; background: var(--rose);
+        transform: rotate(-6deg); box-shadow: 0 8px 18px rgba(215, 103, 127, .28);
+      }
+      .brand-mark span { transform: rotate(6deg); }
+      .nav-note { color: var(--muted); font-size: 13px; }
+
+      main { padding: 54px 0 82px; }
+      .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 70px; align-items: center; }
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 8px; color: var(--rose-dark);
+        font-size: 13px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+      }
+      .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--rose); }
+      h1 {
+        max-width: 630px; margin: 20px 0 18px;
+        font: 700 clamp(44px, 6vw, 76px)/.98 "Playfair Display", serif;
+        letter-spacing: -.055em;
+      }
+      h1 em { color: var(--rose); font-weight: 600; }
+      .lead { max-width: 480px; color: var(--muted); line-height: 1.75; font-size: 17px; }
+      .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+      button {
+        border: 0; border-radius: 999px; padding: 14px 20px; cursor: pointer;
+        font: 600 14px "DM Sans", sans-serif; transition: transform .2s, box-shadow .2s, background .2s;
+      }
+      button:hover { transform: translateY(-2px); }
+      .primary { background: var(--ink); color: white; box-shadow: 0 12px 22px rgba(59, 39, 48, .16); }
+      .secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+
+      .bouquet-wrap { position: relative; min-height: 430px; display: grid; place-items: center; }
+      .bouquet-card {
+        position: relative; width: min(100%, 430px); aspect-ratio: 1/1.05; overflow: hidden;
+        border-radius: 48% 48% 15% 15%; background: linear-gradient(145deg, #f9d9c2, #e98d9d);
+        box-shadow: var(--shadow); transform: rotate(3deg);
+      }
+      .bouquet-card::before {
+        content: "✦  untukmu  ✦"; position: absolute; top: 30px; left: 0; right: 0;
+        text-align: center; color: rgba(255,255,255,.82); font: italic 18px "Playfair Display", serif;
+      }
+      .bouquet-card::after {
+        content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 35%, rgba(255,255,255,.35), transparent 25%), linear-gradient(transparent 65%, rgba(172, 66, 91, .25)); pointer-events: none;
+      }
+      .stem { position: absolute; width: 8px; height: 260px; background: #688b68; left: 50%; top: 39%; transform-origin: bottom; border-radius: 9px; z-index: 1; }
+      .stem.one { transform: rotate(-22deg); height: 250px; }
+      .stem.two { transform: rotate(15deg); height: 270px; }
+      .stem.three { transform: rotate(0deg); height: 290px; }
+      .leaf { position: absolute; width: 54px; height: 22px; background: #82a57b; border-radius: 100% 0 100% 0; z-index: 2; }
+      .leaf.left { left: 29%; top: 67%; transform: rotate(28deg); }
+      .leaf.right { left: 61%; top: 61%; transform: rotate(155deg); }
+      .flower { position: absolute; z-index: 3; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, #ffd86b 0 12%, transparent 13%), repeating-conic-gradient(#fff6e9 0 9deg, #ec8b9a 10deg 22deg, #fff6e9 23deg 34deg); box-shadow: 0 10px 18px rgba(126, 54, 67, .13); }
+      .flower::after { content: ""; position: absolute; inset: 20px; border-radius: 50%; background: radial-gradient(circle, #d66b52 0 20%, #f8be57 21% 42%, transparent 43%); }
+      .flower.small { width: 72px; height: 72px; }
+      .flower.one { left: 18%; top: 33%; transform: rotate(-18deg); }
+      .flower.two { right: 12%; top: 29%; transform: rotate(20deg); background: radial-gradient(circle, #ffd86b 0 12%, transparent 13%), repeating-conic-gradient(#fff8db 0 9deg, #f5b35e 10deg 22deg, #fff8db 23deg 34deg); }
+      .flower.three { left: 39%; top: 19%; transform: rotate(5deg); }
+      .flower.four { left: 5%; top: 50%; transform: rotate(12deg); background: radial-gradient(circle, #ffd86b 0 12%, transparent 13%), repeating-conic-gradient(#fff8e9 0 9deg, #e77791 10deg 22deg, #fff8e9 23deg 34deg); }
+      .flower.five { right: 3%; top: 50%; transform: rotate(-8deg); }
+      .ribbon { position: absolute; z-index: 4; bottom: 14%; left: 50%; width: 80px; height: 94px; background: #c7536d; transform: translateX(-50%) rotate(5deg); clip-path: polygon(0 0, 100% 0, 85% 100%, 50% 80%, 15% 100%); }
+      .floating { position: absolute; color: var(--rose); opacity: .5; animation: float 5s ease-in-out infinite; font-size: 22px; }
+      .float-1 { top: 10%; right: 5%; } .float-2 { left: 6%; bottom: 10%; animation-delay: 1.4s; } .float-3 { top: 25%; left: 2%; animation-delay: 2.2s; }
+      @keyframes float { 50% { transform: translateY(-12px) rotate(10deg); } }
+
+      .letter {
+        width: min(100%, 780px); margin: 100px auto 0; padding: clamp(32px, 6vw, 70px);
+        background: var(--paper); border: 1px solid rgba(255,255,255,.8); border-radius: 28px;
+        box-shadow: var(--shadow); backdrop-filter: blur(12px); position: relative;
+      }
+      .letter::before { content: "♡"; position: absolute; top: 25px; right: 32px; color: #e9a0aa; font-size: 25px; }
+      .letter-label { color: var(--rose-dark); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+      .letter h2 { margin: 15px 0 24px; font: 600 clamp(30px, 4vw, 46px)/1.1 "Playfair Display", serif; }
+      .letter p { color: var(--muted); line-height: 1.9; margin: 0 0 17px; }
+      .signature { margin-top: 30px; color: var(--ink); font: italic 24px "Playfair Display", serif; }
+      .divider { width: 60px; height: 2px; margin: 25px 0; background: var(--peach); }
+      footer { text-align: center; padding: 0 0 34px; color: #a18d92; font-size: 12px; }
+      .toast { position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 100px); padding: 13px 18px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 13px; opacity: 0; transition: .35s; z-index: 10; }
+      .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+      @media (max-width: 760px) {
+        .shell { width: min(100% - 28px, 540px); }
+        header { padding: 20px 0; } .nav-note { display: none; }
+        main { padding-top: 30px; } .hero { grid-template-columns: 1fr; gap: 30px; }
+        h1 { font-size: clamp(45px, 14vw, 68px); } .lead { font-size: 15px; }
+        .bouquet-wrap { min-height: 350px; } .bouquet-card { max-width: 340px; }
+        .letter { margin-top: 55px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <div class="brand"><div class="brand-mark"><span>✿</span></div><span>sebuah.kabar</span></div>
+        <div class="nav-note">surat kecil, rasa yang besar</div>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div>
+            <div class="eyebrow">dikirim dengan hangat</div>
+            <h1 id="hero-title">Ada bunga <em>untukmu.</em></h1>
+            <p class="lead">Tidak perlu menunggu hari istimewa untuk mengatakan sesuatu yang indah. Buka surat ini, dan biarkan seikat bunga virtual menyampaikan sisanya.</p>
+            <div class="actions">
+              <button class="primary" id="openLetter">Buka suratnya <span aria-hidden="true">↗</span></button>
+              <button class="secondary" id="sendFlowers">Kirim bunga virtual ✿</button>
+            </div>
+          </div>
+
+          <div class="bouquet-wrap" aria-label="Ilustrasi buket bunga virtual">
+            <span class="floating float-1">✦</span><span class="floating float-2">✿</span><span class="floating float-3">·</span>
+            <div class="bouquet-card">
+              <div class="stem one"></div><div class="stem two"></div><div class="stem three"></div>
+              <div class="leaf left"></div><div class="leaf right"></div>
+              <div class="flower one"></div><div class="flower small two"></div><div class="flower three"></div>
+              <div class="flower small four"></div><div class="flower small five"></div><div class="ribbon"></div>
+            </div>
+          </div>
+        </section>
+
+        <article class="letter" id="letter">
+          <div class="letter-label">surat hari ini</div>
+          <h2>Untuk kamu yang selalu punya tempat di hati.</h2>
+          <div class="divider"></div>
+          <p>Hai, kamu.</p>
+          <p>Aku tahu, hari-hari kadang berjalan terlalu cepat. Jadi, anggap saja halaman kecil ini sebagai jeda—seperti segelas teh hangat, lagu favorit, dan bunga yang tiba-tiba datang tanpa alasan.</p>
+          <p>Terima kasih sudah menjadi dirimu sendiri. Semoga hari ini ada satu hal kecil yang membuatmu tersenyum, dan semoga kamu selalu ingat: kamu layak mendapatkan hal-hal baik, bahkan di hari biasa.</p>
+          <p class="signature">Dengan banyak rasa baik,<br />seseorang yang memikirkanmu ♡</p>
+        </article>
+      </main>
+
+      <footer>dibuat untuk mengirimkan sedikit kehangatan — <span id="year"></span></footer>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+      const letter = document.getElementById("letter");
+      const toast = document.getElementById("toast");
+      const showToast = (message) => {
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.setTimeout(() => toast.classList.remove("show"), 2600);
+      };
+      document.getElementById("openLetter").addEventListener("click", () => {
+        letter.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+      document.getElementById("sendFlowers").addEventListener("click", () => {
+        showToast("Bunga virtualnya sudah dikirim ✿");
+      });
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
