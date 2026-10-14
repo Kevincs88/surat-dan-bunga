@@ -94,10 +94,53 @@
       .secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); }
 
       .bouquet-wrap { position: relative; min-height: 430px; display: grid; place-items: center; }
+      .reveal-stage { position: relative; width: min(100%, 430px); min-height: 430px; display: grid; place-items: center; }
+      .invitation {
+        position: absolute; z-index: 6; width: 88%; height: 285px; top: 74px; cursor: pointer;
+        filter: drop-shadow(0 24px 24px rgba(113, 62, 73, .2));
+        transition: opacity .6s ease, transform .9s cubic-bezier(.2, .85, .25, 1);
+      }
+      .envelope-back {
+        position: absolute; inset: 0; overflow: hidden; border-radius: 14px;
+        background: linear-gradient(145deg, #f4b39d, #d96e83);
+      }
+      .envelope-back::before, .envelope-back::after {
+        content: ""; position: absolute; bottom: -4px; width: 72%; height: 85%;
+        background: rgba(255,255,255,.16); transform: rotate(32deg); transform-origin: bottom;
+      }
+      .envelope-back::before { left: -20%; } .envelope-back::after { right: -20%; transform: rotate(-32deg); }
+      .envelope-flap {
+        position: absolute; z-index: 2; top: 0; left: 0; width: 100%; height: 56%;
+        background: linear-gradient(145deg, #f8c6af, #e58994); clip-path: polygon(0 0, 100% 0, 50% 100%);
+        transform-origin: top; transition: transform .9s cubic-bezier(.2, .85, .25, 1);
+      }
+      .invitation-note {
+        position: absolute; z-index: 3; top: 34px; left: 50%; width: 205px; padding: 21px 16px;
+        text-align: center; transform: translateX(-50%); border-radius: 4px; color: #75434d;
+        background: #fff9ee; box-shadow: 0 8px 16px rgba(101, 55, 62, .12);
+        font: 600 19px/1.25 "Playfair Display", serif; transition: transform .9s cubic-bezier(.2, .85, .25, 1);
+      }
+      .invitation-note small { display: block; margin-top: 9px; color: #b77279; font: 600 9px "DM Sans", sans-serif; letter-spacing: .17em; text-transform: uppercase; }
+      .seal {
+        position: absolute; z-index: 4; left: 50%; bottom: 28%; display: grid; place-items: center;
+        width: 49px; height: 49px; border-radius: 50%; color: #fff7ed; background: #c95670;
+        transform: translateX(-50%); font-size: 22px; box-shadow: 0 5px 10px rgba(101, 55, 62, .16);
+        transition: opacity .3s, transform .3s;
+      }
+      .invitation.opened { opacity: 0; transform: translateY(-110px) scale(.92); pointer-events: none; }
+      .invitation.opened .envelope-flap { transform: rotateX(180deg); }
+      .invitation.opened .invitation-note { transform: translate(-50%, -135px) rotate(-3deg); }
+      .invitation.opened .seal { opacity: 0; transform: translateX(-50%) scale(.5); }
+      .stage-hint { position: absolute; z-index: 7; bottom: 12px; color: #a25263; font-size: 12px; opacity: .85; transition: opacity .3s; }
+      .stage-hint.hidden { opacity: 0; }
       .bouquet-card {
         position: relative; width: min(100%, 430px); aspect-ratio: 1/1.05; overflow: hidden;
         border-radius: 48% 48% 15% 15%; background: linear-gradient(145deg, #f9d9c2, #e98d9d);
-        box-shadow: var(--shadow); transform: rotate(3deg); cursor: pointer;
+        box-shadow: var(--shadow); transform: rotate(3deg) translateY(25px); cursor: pointer; opacity: 0;
+        transition: transform .8s ease, box-shadow .35s ease, opacity .7s ease;
+      }
+      .bouquet-card.revealed {
+        opacity: 1; transform: rotate(3deg) translateY(0);
         transition: transform .35s ease, box-shadow .35s ease;
       }
       .bouquet-card:hover, .bouquet-card.blooming {
@@ -155,6 +198,7 @@
         box-shadow: var(--shadow); backdrop-filter: blur(12px); position: relative;
         opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease;
       }
+      .letter.ribbon-note { margin-top: 16px; padding-top: 28px; }
       .letter.visible { opacity: 1; transform: translateY(0); }
       .letter p, .letter h2, .letter .divider, .letter .letter-label {
         opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease;
@@ -214,11 +258,19 @@
 
           <div class="bouquet-wrap" aria-label="Ilustrasi buket bunga virtual">
             <span class="floating float-1">✦</span><span class="floating float-2">✿</span><span class="floating float-3">·</span>
-            <div class="bouquet-card">
-              <div class="stem one"></div><div class="stem two"></div><div class="stem three"></div>
-              <div class="leaf left"></div><div class="leaf right"></div>
-              <div class="flower one"></div><div class="flower small two"></div><div class="flower three"></div>
-              <div class="flower small four"></div><div class="flower small five"></div><div class="ribbon"></div>
+            <div class="reveal-stage">
+              <div class="invitation" id="invitation" role="button" tabindex="0" aria-label="Buka undangan">
+                <div class="envelope-back"></div>
+                <div class="invitation-note">Ada sesuatu yang indah untukmu<small>sentuh untuk membuka</small></div>
+                <div class="envelope-flap"></div><div class="seal">♡</div>
+              </div>
+              <div class="bouquet-card" id="bouquetCard">
+                <div class="stem one"></div><div class="stem two"></div><div class="stem three"></div>
+                <div class="leaf left"></div><div class="leaf right"></div>
+                <div class="flower one"></div><div class="flower small two"></div><div class="flower three"></div>
+                <div class="flower small four"></div><div class="flower small five"></div><div class="ribbon"></div>
+              </div>
+              <span class="stage-hint" id="stageHint">sentuh undangannya untuk membuka ✦</span>
             </div>
           </div>
         </section>
@@ -242,6 +294,8 @@
       const toast = document.getElementById("toast");
       const bouquet = document.querySelector(".bouquet-card");
       const petals = document.querySelector(".petals");
+      const invitation = document.getElementById("invitation");
+      const stageHint = document.getElementById("stageHint");
       const showToast = (message) => {
         toast.textContent = message;
         toast.classList.add("show");
@@ -266,7 +320,25 @@
           petal.addEventListener("animationend", () => petal.remove());
         }
       };
+      const openInvitation = () => {
+        if (invitation.classList.contains("opened")) return;
+        invitation.classList.add("opened");
+        stageHint.classList.add("hidden");
+        window.setTimeout(() => {
+          bouquet.classList.add("revealed", "blooming");
+          releasePetals(20);
+          showToast("Surat dan bunganya untukmu ✿");
+        }, 620);
+      };
+      invitation.addEventListener("click", openInvitation);
+      invitation.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openInvitation();
+        }
+      });
       bouquet.addEventListener("click", () => {
+        if (!bouquet.classList.contains("revealed")) return;
         bouquet.classList.remove("blooming");
         requestAnimationFrame(() => bouquet.classList.add("blooming"));
         releasePetals(10);
