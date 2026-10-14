@@ -178,13 +178,36 @@
       .leaf { position: absolute; width: 54px; height: 22px; background: #82a57b; border-radius: 100% 0 100% 0; z-index: 2; }
       .leaf.left { left: 29%; top: 67%; transform: rotate(28deg); }
       .leaf.right { left: 61%; top: 61%; transform: rotate(155deg); }
-      .flower { position: absolute; z-index: 3; width: 100px; height: 100px; border-radius: 50%; background: radial-gradient(circle, #ffd86b 0 12%, transparent 13%), repeating-conic-gradient(#fff6e9 0 9deg, #ec8b9a 10deg 22deg, #fff6e9 23deg 34deg); box-shadow: 0 10px 18px rgba(126, 54, 67, .13); }
-      .flower::after { content: ""; position: absolute; inset: 20px; border-radius: 50%; background: radial-gradient(circle, #d66b52 0 20%, #f8be57 21% 42%, transparent 43%); }
+      .flower {
+        position: absolute; z-index: 3; width: 100px; height: 100px; border-radius: 50%;
+        background:
+          radial-gradient(circle at 50% 50%, #8f1429 0 7%, transparent 8%),
+          radial-gradient(ellipse at 50% 18%, #e8465b 0 20%, transparent 21%),
+          radial-gradient(ellipse at 82% 36%, #c91f3d 0 22%, transparent 23%),
+          radial-gradient(ellipse at 70% 80%, #a81431 0 22%, transparent 23%),
+          radial-gradient(ellipse at 25% 78%, #d92d46 0 22%, transparent 23%),
+          radial-gradient(ellipse at 18% 35%, #b91937 0 22%, transparent 23%),
+          radial-gradient(circle, #ef5b68 0 48%, #8e1229 49% 53%, #d92d46 54% 72%, #99142b 73%);
+        box-shadow: 0 10px 18px rgba(126, 54, 67, .2);
+      }
+      .flower::before {
+        content: ""; position: absolute; inset: 12%; border-radius: 50%;
+        background:
+          radial-gradient(ellipse at 50% 5%, rgba(255, 174, 169, .7) 0 10%, transparent 11%),
+          radial-gradient(ellipse at 95% 42%, rgba(255, 122, 131, .45) 0 12%, transparent 13%),
+          radial-gradient(ellipse at 50% 98%, rgba(72, 5, 20, .25) 0 13%, transparent 14%);
+        transform: rotate(-18deg);
+      }
+      .flower::after {
+        content: ""; position: absolute; inset: 39%; border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #ffbf62 0 9%, #641022 10% 38%, #b51e38 39% 68%, #5b0b1d 69%);
+        box-shadow: 0 1px 4px rgba(65, 5, 19, .35);
+      }
       .flower.small { width: 72px; height: 72px; }
       .flower.one { left: 18%; top: 33%; transform: rotate(-18deg); }
-      .flower.two { right: 12%; top: 29%; transform: rotate(20deg); background: radial-gradient(circle, #ffd86b 0 12%, transparent 13%), repeating-conic-gradient(#fff8db 0 9deg, #f5b35e 10deg 22deg, #fff8db 23deg 34deg); }
+      .flower.two { right: 12%; top: 29%; transform: rotate(20deg); }
       .flower.three { left: 39%; top: 19%; transform: rotate(5deg); }
-      .flower.four { left: 5%; top: 50%; transform: rotate(12deg); background: radial-gradient(circle, #ffd86b 0 12%, transparent 13%), repeating-conic-gradient(#fff8e9 0 9deg, #e77791 10deg 22deg, #fff8e9 23deg 34deg); }
+      .flower.four { left: 5%; top: 50%; transform: rotate(12deg); }
       .flower.five { right: 3%; top: 50%; transform: rotate(-8deg); }
       .bouquet-card.blooming .flower { animation: flower-pop .7s cubic-bezier(.2, 1.5, .5, 1) both; }
       .bouquet-card.blooming .flower.two { animation-delay: .08s; }
@@ -282,20 +305,16 @@
     <div class="petals" aria-hidden="true"></div>
     <div class="shell">
       <header>
-        <div class="brand"><div class="brand-mark"><span>✿</span></div><span>sebuah.kabar</span></div>
+        <div class="brand"><div class="brand-mark"><span>✿</span></div><span>Untuk Alyssa Vicesterika Putri Watulingas</span></div>
         <div class="nav-note">surat kecil, rasa yang besar</div>
       </header>
 
       <main>
         <section class="hero" aria-labelledby="hero-title">
           <div>
-            <div class="eyebrow">dikirim dengan hangat</div>
+            <div class="eyebrow">Dear Alyssa Vicesterika Putri Watulingas</div>
             <h1 id="hero-title">Ada bunga <em>untukmu.</em></h1>
-            <p class="lead">Tidak perlu menunggu hari istimewa untuk mengatakan sesuatu yang indah. Buka surat ini, dan biarkan seikat bunga virtual menyampaikan sisanya.</p>
-            <div class="actions">
-              <button class="primary" id="openLetter">Buka suratnya <span aria-hidden="true">↗</span></button>
-              <button class="secondary" id="sendFlowers">Kirim bunga virtual ✿</button>
-            </div>
+            <p class="lead">Makasih sudah menemani aku dan sudah hadir ke dalam hidupku, ada kata-kata yang ingin aku sampaikan ke kamu melalui surat ini dan ini ada bunga walaupun bentuknya virtual aku harap kamu suka.</p>
           </div>
 
           <div class="bouquet-wrap" aria-label="Ilustrasi buket bunga virtual">
@@ -303,7 +322,7 @@
             <div class="reveal-stage">
               <div class="invitation" id="invitation" role="button" tabindex="0" aria-label="Buka undangan">
                 <div class="envelope-back"></div>
-                <div class="invitation-note">Ada sesuatu yang indah untukmu<small>sentuh untuk membuka</small></div>
+                <div class="invitation-note">Untuk Alyssa Vicesterika Putri Watulingas<small>sentuh untuk membuka</small></div>
                 <div class="envelope-flap"></div><div class="seal">♡</div>
               </div>
               <div class="bouquet-card" id="bouquetCard">
@@ -318,17 +337,20 @@
         </section>
 
         <article class="letter" id="letter">
-          <div class="letter-label">surat hari ini</div>
-          <h2>Untuk kamu yang selalu punya tempat di hati.</h2>
+          <div class="letter-label">From me</div>
+          <h2>Halo Alyssa Vicesterika Putri Watulingas.</h2>
           <div class="divider"></div>
           <p>Hai, kamu.</p>
-          <p>Aku tahu, hari-hari kadang berjalan terlalu cepat. Jadi, anggap saja halaman kecil ini sebagai jeda—seperti segelas teh hangat, lagu favorit, dan bunga yang tiba-tiba datang tanpa alasan.</p>
-          <p>Terima kasih sudah menjadi dirimu sendiri. Semoga hari ini ada satu hal kecil yang membuatmu tersenyum, dan semoga kamu selalu ingat: kamu layak mendapatkan hal-hal baik, bahkan di hari biasa.</p>
-          <p class="signature">Dengan banyak rasa baik,<br />seseorang yang memikirkanmu ♡</p>
+          <p>Aku mau sampein sesuatu untuk kamu, aku berterima kasih karena Tuhan telah mempertemukan kita tanpa sengaja. Dimulai di hari pertama kita ketemu kita cuman main uno bareng dan ya makin sering aku ketemu kamu, entah kenapa aku ngerasa sesuatu dari kamu yang bisa membuat aku bahagia dan tersenyum. Aku suka kehadiran kamu, sikap kamu dan pembawaan kamu semua membuat aku merasa bahagia. Senyum kamu yang indah juga buat aku mau jaga keindahan itu.</p>
+          <p>Tadi itu hal yang membuat aku terpesona sama kamu, tapi itu cuman awal mulai nya aja dan entah kenapa semesta pun berkehendak, kayak tiba-tiba aja charger kamu ketinggalan. Ya karena kejadian itu, diriku pun terpicu untuk berani mencoba untuk mendekati kamu dan coba untuk lebih mendalam mengenal kamu itu orang yang seperti apa, dan akhirnya aku coba untuk ajak jalan kamu di instagram dengan alih-alih ngemabliin casan ke kamu. Jalan pertama kita itu aku ajak kamu ke Blok M, disana aku ajak dengan alasan aku mau coba makan ramen. Padahal ramen itu random aja muncul pertama kali dari rekomendasi makanan yang ada di Blok M waktu aku search. Dari situ semua nya pun berlanjut sampai sekarang.</p>
+          <p>Disaat aku mulai, jujur aku ga pikirin bagaimana lanjutnya hubungan yang aku mulai ini. Kayak yang kamu tau juga kamu adalah perempuan pertama yang memulai hubungan romantis dengan aku dan aku pun baru pertama kali merasakan ada nya di sebuah hubungan romantis. Karena pertama kali, jujur aku gatau bagaimana cara menjadi pasangan yang baik itu seperti apa, aku juga yakin diriku pun banyak banget kurangnya kayak yang kamu pernah sampaikan ke aku juga kamu merasa bahwa di hubungan ini kamu seperti ngurusin anak kecil dan kamu merasa bahwa kamu mama dan bukan pasangan yang ada di sisi aku. Aku gatau kenapa di dekat kamu aku berubah menjadi pribadi yang seperti itu dan pastinya kamu merasa cape karena setiap kali kamu harus urusin aku.</p>
+          <p>Jujur aku salut dan kagum sama kamu karena walau dengan banyaknya kurang aku entah kenapa kamu masih aja stay di sisi aku sampai sekarang, jujur sampai sekarang aku masih ngerasa aku orang yang beruntung banget yang punya kamu di sisi aku dan aku juga bersyukur banget masih ada kamu di sisi aku. Aku mau banget kehadiran kamu itu bisa menemani aku sampai aku tua nanti juga, aku mau juga menikmati masakan kamu yang enak, endul, sedep, mantep deh pokoknya gaada lawan itu sampai aku tua. Ya pastinya aku mau kamu masak disaat kamu lagi pengen aja dan aku gamau kamu ngerasa capek. Kayak bisa sama kamu di hari tua nanti tuh impian yang paling pengen aku capai semasa hidup aku dan aku akan usahakan impian dan mimpi itu menjadi nyata.</p>
+          <p>Banyak banget masalah juga yang udah kita hadapin dan lewatin, berbagai macam situasi yang membuat kita harus saling beradaptasi dan saling memahami satu sama lain. Ya aku tau aku banyak banget kurangnya, tapi aku mau kamu tau bahwa aku berusaha untuk menjadi pasangan yang lebih baik lagi dan aku mau belajar dari kesalahan yang aku buat. Aku mau kamu tau bahwa aku sayang sama kamu dan aku mau kamu bahagia, karena kebahagiaan kamu itu adalah kebahagiaan aku juga. Aku mau kita bisa saling melengkapi satu sama lain dan bisa saling support satu sama lain. Aku mau kita bisa saling mengerti satu sama lain dan bisa saling menghargai satu sama lain. Aku mau kita bisa saling percaya satu sama lain dan bisa saling menjaga satu sama lain. Aku mau kita bisa saling mencintai satu sama lain dan bisa saling membahagiakan satu sama lain.</p>
+          <p class="signature">Makasih ya Alyssa,<br />♡</p>
         </article>
       </main>
 
-      <footer>dibuat untuk mengirimkan sedikit kehangatan — <span id="year"></span></footer>
+      <footer>surat untuk icha<span id="year"></span></footer>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script>
@@ -343,13 +365,19 @@
         toast.classList.add("show");
         window.setTimeout(() => toast.classList.remove("show"), 2600);
       };
-      document.getElementById("openLetter").addEventListener("click", () => {
-        letter.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
-      document.getElementById("sendFlowers").addEventListener("click", () => {
-        releasePetals(18);
-        showToast("Bunga virtualnya sudah dikirim ✿");
-      });
+      const openLetterButton = document.getElementById("openLetter");
+      if (openLetterButton) {
+        openLetterButton.addEventListener("click", () => {
+          letter.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      }
+      const sendFlowersButton = document.getElementById("sendFlowers");
+      if (sendFlowersButton) {
+        sendFlowersButton.addEventListener("click", () => {
+          releasePetals(18);
+          showToast("Bunga virtualnya sudah dikirim ✿");
+        });
+      }
       const releasePetals = (amount = 12) => {
         for (let index = 0; index < amount; index += 1) {
           const petal = document.createElement("span");
