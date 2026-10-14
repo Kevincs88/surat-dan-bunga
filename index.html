@@ -32,6 +32,7 @@
         font-family: "DM Sans", sans-serif;
         min-height: 100vh;
         overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
       }
       .petals { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 8; }
       .petal {
@@ -71,6 +72,19 @@
       .nav-note { color: var(--muted); font-size: 13px; }
 
       main { padding: 54px 0 82px; }
+      body:not(.page-opened) header { justify-content: center; }
+      body:not(.page-opened) header .nav-note,
+      body:not(.page-opened) .hero > div:first-child,
+      body:not(.page-opened) .floating,
+      body:not(.page-opened) .letter,
+      body:not(.page-opened) footer { display: none; }
+      body:not(.page-opened) main {
+        min-height: calc(100svh - 86px); display: grid; place-items: center;
+        padding: 20px 0 42px;
+      }
+      body:not(.page-opened) .hero { display: block; width: 100%; }
+      body:not(.page-opened) .bouquet-wrap { min-height: min(620px, calc(100svh - 150px)); }
+      body:not(.page-opened) .reveal-stage { min-height: min(560px, calc(100svh - 180px)); }
       .hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 70px; align-items: center; }
       .eyebrow {
         display: inline-flex; align-items: center; gap: 8px; color: var(--rose-dark);
@@ -98,8 +112,10 @@
       .invitation {
         position: absolute; z-index: 6; width: 88%; height: 285px; top: 74px; cursor: pointer;
         filter: drop-shadow(0 24px 24px rgba(113, 62, 73, .2));
-        transition: opacity .6s ease, transform .9s cubic-bezier(.2, .85, .25, 1);
+        transition: opacity .6s ease, transform .9s cubic-bezier(.2, .85, .25, 1), filter .25s ease;
       }
+      .invitation:focus-visible { outline: 4px solid rgba(215, 103, 127, .35); outline-offset: 7px; }
+      .invitation:hover { filter: drop-shadow(0 28px 28px rgba(113, 62, 73, .27)); }
       .envelope-back {
         position: absolute; inset: 0; overflow: hidden; border-radius: 14px;
         background: linear-gradient(145deg, #f4b39d, #d96e83);
@@ -143,6 +159,7 @@
         opacity: 1; transform: rotate(3deg) translateY(0);
         transition: transform .35s ease, box-shadow .35s ease;
       }
+      body:not(.page-opened) .bouquet-card { visibility: hidden; }
       .bouquet-card:hover, .bouquet-card.blooming {
         transform: rotate(0deg) scale(1.035);
         box-shadow: 0 32px 90px rgba(131, 69, 82, .24);
@@ -212,6 +229,10 @@
       .letter.visible p:nth-of-type(2) { transition-delay: .4s; }
       .letter.visible p:nth-of-type(3) { transition-delay: .5s; }
       .letter.visible p:nth-of-type(4) { transition-delay: .6s; }
+      .page-opened .hero > div:first-child { animation: content-in .8s ease both; }
+      @keyframes content-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
       }
       .letter::before { content: "♡"; position: absolute; top: 25px; right: 32px; color: #e9a0aa; font-size: 25px; }
       .letter-label { color: var(--rose-dark); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
@@ -233,6 +254,27 @@
         h1 { font-size: clamp(45px, 14vw, 68px); } .lead { font-size: 15px; }
         .bouquet-wrap { min-height: 350px; } .bouquet-card { max-width: 340px; }
         .letter { margin-top: 55px; }
+        body:not(.page-opened) header { padding-top: calc(14px + env(safe-area-inset-top)); }
+        body:not(.page-opened) main {
+          min-height: calc(100svh - 74px);
+          padding-bottom: calc(24px + env(safe-area-inset-bottom));
+        }
+        body:not(.page-opened) .bouquet-wrap { min-height: calc(100svh - 145px); }
+        body:not(.page-opened) .reveal-stage { min-height: calc(100svh - 170px); }
+        .invitation {
+          width: min(88vw, 360px); height: min(58vw, 250px);
+          top: 50%; transform: translateY(-50%);
+        }
+        .invitation.opened { transform: translateY(calc(-50% - 110px)) scale(.92); }
+        .invitation-note { width: min(54vw, 205px); padding: 17px 12px; font-size: 17px; }
+        .stage-hint { bottom: 3%; width: 100%; text-align: center; font-size: 11px; }
+        .bouquet-card { width: min(88vw, 360px); }
+        .letter { padding: 32px 24px; }
+        button { min-height: 48px; }
+      }
+      @media (min-width: 761px) {
+        body:not(.page-opened) .invitation { top: 50%; transform: translateY(-50%); }
+        body:not(.page-opened) .invitation.opened { transform: translateY(calc(-50% - 110px)) scale(.92); }
       }
     </style>
   </head>
@@ -322,12 +364,14 @@
       };
       const openInvitation = () => {
         if (invitation.classList.contains("opened")) return;
+        document.body.classList.add("page-opened");
         invitation.classList.add("opened");
         stageHint.classList.add("hidden");
         window.setTimeout(() => {
           bouquet.classList.add("revealed", "blooming");
           releasePetals(20);
           showToast("Surat dan bunganya untukmu ✿");
+          letter.classList.add("visible");
         }, 620);
       };
       invitation.addEventListener("click", openInvitation);
